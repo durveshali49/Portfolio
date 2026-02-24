@@ -1,18 +1,24 @@
+# Shaik Durveshali | 3D Portfolio
 
+A sleek, 3D interactive portfolio built using HTML, CSS, JavaScript, Three.js, and GSAP.
 
-# Run and deploy your AI Studio app
+## Features
+- **3D Parallax Background**: Custom Three.js rendering with reactive particle simulation.
+- **Glassmorphism UI**: High-end styling using modern CSS techniques.
+- **Scroll Animations**: Smooth entrance animations powered by GSAP.
+- **Responsive Navigation**: Full mobile support with a custom hamburger menu.
+- **SEO Optimized**: Includes meta tags and semantic HTML for search engine discoverability.
 
-This contains everything you need to run your app locally.
+## Tech Stack
+- HTML5
+- CSS3 (Variables, Flexbox, Grid, Glassmorphism)
+- Vanilla JavaScript
+- [Three.js](https://threejs.org/) (3D Graphics)
+- [GSAP](https://greensock.com/gsap/) (Animations)
 
-View your app in AI Studio: https://ai.studio/apps/temp/1
-
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Setup
+Simply serve the repository using any local web server, for example:
+```bash
+python -m http.server 8000
+```
+Then visit `http://localhost:8000` in your browser.
