@@ -1,181 +1,187 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { EXPERIENCE, ACHIEVEMENTS } from '../constants';
-import { Braces, Box, Settings } from 'lucide-react';
+import { Code, Layers, Wrench, Award, Briefcase } from 'lucide-react';
 
 const About = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.4, 0.25, 1]
-      }
-    }
+  const skills = {
+    languages: ["Java", "JavaScript", "TypeScript", "Node.js", "SQL", "HTML/CSS"],
+    frameworks: ["React.js", "Express.js", "Tailwind CSS", "Framer Motion", "Next.js"],
+    tools: ["Git", "VS Code", "IntelliJ IDEA", "Figma", "MySQL", "Postman", "AWS"]
   };
 
   return (
-    <section id="about" className="py-32 px-4 md:px-10 bg-gradient-to-b from-[#050505] via-[#0a0a0a] to-[#050505] text-white relative overflow-hidden">
-      
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-[#C8B29E]/10 rounded-full blur-[150px] animate-pulse"></div>
-        <div className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] bg-[#C8B29E]/5 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full"></div>
-      </div>
-      
-      {/* Header */}
-      <motion.div 
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="max-w-7xl mx-auto mb-24 relative z-10"
-      >
-        <span className="font-mono text-sm text-[#C8B29E] uppercase tracking-[0.3em] mb-6 block">(003) — About Me</span>
-        <h2 className="font-display text-5xl md:text-7xl font-black uppercase leading-none mb-8">
-          Crafting Digital<br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C8B29E] to-white">Experiences</span>
-        </h2>
-        <p className="text-xl md:text-2xl text-gray-400 max-w-3xl font-sans leading-relaxed">
-          Full-stack developer specializing in building scalable web applications with elegant user interfaces and robust backend architectures.
-        </p>
-      </motion.div>
+    <section id="about" className="py-20 px-4 md:px-10">
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <h2 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+            About Me
+          </h2>
+          <p className="text-slate-400 text-lg max-w-3xl">
+            Full-stack developer specializing in building scalable web applications with modern technologies. 
+            Passionate about creating seamless user experiences and writing clean, maintainable code.
+          </p>
+        </motion.div>
 
-      {/* Experience Timeline */}
-      <div className="max-w-7xl mx-auto mb-32 relative z-10">
-        <h3 className="font-display text-3xl md:text-4xl font-bold uppercase mb-16 text-[#C8B29E]">Experience</h3>
-        <div className="space-y-0">
-          {EXPERIENCE.map((exp, index) => (
-            <motion.div
-              key={exp.id}
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className="group relative"
-            >
-              {/* Timeline Line */}
-              <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#C8B29E] to-transparent opacity-30 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              {/* Timeline Dot */}
-              <div className="absolute -left-[5px] top-8 w-[11px] h-[11px] rounded-full bg-[#050505] border-2 border-[#C8B29E] group-hover:scale-150 transition-transform duration-300"></div>
-              
-              {/* Content Card */}
-              <div className="ml-12 mb-16 p-8 md:p-10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-sm rounded-2xl border border-white/10 group-hover:border-[#C8B29E]/50 transition-all duration-500 group-hover:translate-x-2">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+        {/* Experience Section */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <Briefcase className="text-blue-400" size={24} />
+            <h3 className="text-2xl md:text-3xl font-bold text-white">Experience</h3>
+          </div>
+
+          <div className="space-y-6">
+            {EXPERIENCE.map((exp, index) => (
+              <motion.div
+                key={exp.id}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 hover:border-blue-500/50 transition-colors"
+              >
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-3">
                   <div>
-                    <h4 className="font-display text-2xl md:text-3xl font-black uppercase text-white group-hover:text-[#C8B29E] transition-colors duration-300">
-                      {exp.role}
-                    </h4>
-                    <p className="text-[#C8B29E] font-mono text-sm mt-1">{exp.company}</p>
+                    <h4 className="text-xl font-bold text-white">{exp.role}</h4>
+                    <p className="text-blue-400 font-medium">{exp.company}</p>
                   </div>
-                  <span className="font-mono text-sm text-gray-500 mt-2 md:mt-0">{exp.period}</span>
+                  <span className="text-sm text-slate-500 mt-2 md:mt-0">{exp.period}</span>
                 </div>
-                
-                <div className="space-y-3">
+
+                <ul className="space-y-2">
                   {exp.description.map((desc, i) => (
-                    <div key={i} className="flex items-start gap-3 group/item">
-                      <div className="mt-2 w-1.5 h-1.5 rounded-full bg-[#C8B29E] flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                      <p className="text-gray-300 leading-relaxed">{desc}</p>
-                    </div>
+                    <li key={i} className="flex items-start gap-2 text-slate-400 text-sm">
+                      <span className="text-blue-400 mt-1.5">•</span>
+                      <span>{desc}</span>
+                    </li>
                   ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Skills Section */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <Code className="text-blue-400" size={24} />
+            <h3 className="text-2xl md:text-3xl font-bold text-white">Tech Stack</h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Languages */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 hover:border-blue-500/50 transition-colors"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                  <Code className="text-blue-400" size={20} />
                 </div>
+                <h4 className="text-lg font-bold text-white">Languages</h4>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {skills.languages.map(tech => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 text-xs font-medium bg-slate-700/50 text-slate-300 rounded-md border border-slate-600"
+                  >
+                    {tech}
+                  </span>
+                ))}
               </div>
             </motion.div>
-          ))}
+
+            {/* Frameworks */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 hover:border-blue-500/50 transition-colors"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                  <Layers className="text-blue-400" size={20} />
+                </div>
+                <h4 className="text-lg font-bold text-white">Frameworks</h4>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {skills.frameworks.map(tech => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 text-xs font-medium bg-slate-700/50 text-slate-300 rounded-md border border-slate-600"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Tools */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 hover:border-blue-500/50 transition-colors"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                  <Wrench className="text-blue-400" size={20} />
+                </div>
+                <h4 className="text-lg font-bold text-white">Tools</h4>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {skills.tools.map(tech => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 text-xs font-medium bg-slate-700/50 text-slate-300 rounded-md border border-slate-600"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </div>
+
+        {/* Achievements Section */}
+        {ACHIEVEMENTS && ACHIEVEMENTS.length > 0 && (
+          <div>
+            <div className="flex items-center gap-3 mb-8">
+              <Award className="text-blue-400" size={24} />
+              <h3 className="text-2xl md:text-3xl font-bold text-white">Achievements</h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {ACHIEVEMENTS.map((achievement, index) => (
+                <motion.div
+                  key={achievement.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-slate-800/50 border border-slate-700 rounded-lg p-5 hover:border-blue-500/50 transition-colors"
+                >
+                  <h4 className="text-lg font-bold text-white mb-2">{achievement.title}</h4>
+                  <p className="text-slate-400 text-sm">{achievement.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-
-      {/* Skills Section - Creative Card Design */}
-      <div className="max-w-7xl mx-auto relative z-10">
-        <h3 className="font-display text-3xl md:text-4xl font-bold uppercase mb-16 text-[#C8B29E]">Tech Stack</h3>
-        
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-        >
-          {/* Languages */}
-          <motion.div
-            variants={itemVariants}
-            className="group relative p-8 bg-gradient-to-br from-[#C8B29E]/10 via-transparent to-transparent backdrop-blur-sm rounded-3xl border border-[#C8B29E]/20 hover:border-[#C8B29E] transition-all duration-500 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-[#C8B29E]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-[#C8B29E]/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                <Braces className="w-7 h-7 text-[#C8B29E]" />
-              </div>
-              <h4 className="font-display text-xl font-black uppercase mb-6 text-white">Languages</h4>
-              <div className="flex flex-wrap gap-2">
-                {["Java", "JavaScript", "Node.js", "SQL", "HTML/CSS"].map(tech => (
-                  <span key={tech} className="px-3 py-1.5 bg-white/5 rounded-lg text-xs font-mono text-gray-300 border border-white/10 hover:bg-[#C8B29E] hover:text-black hover:border-[#C8B29E] transition-all duration-300 cursor-default">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Frameworks */}
-          <motion.div
-            variants={itemVariants}
-            className="group relative p-8 bg-gradient-to-br from-[#C8B29E]/10 via-transparent to-transparent backdrop-blur-sm rounded-3xl border border-[#C8B29E]/20 hover:border-[#C8B29E] transition-all duration-500 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-[#C8B29E]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-[#C8B29E]/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                <Box className="w-7 h-7 text-[#C8B29E]" />
-              </div>
-              <h4 className="font-display text-xl font-black uppercase mb-6 text-white">Frameworks</h4>
-              <div className="flex flex-wrap gap-2">
-                {["React.js", "Express.js", "Tailwind", "Framer Motion"].map(tech => (
-                  <span key={tech} className="px-3 py-1.5 bg-white/5 rounded-lg text-xs font-mono text-gray-300 border border-white/10 hover:bg-[#C8B29E] hover:text-black hover:border-[#C8B29E] transition-all duration-300 cursor-default">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Tools */}
-          <motion.div
-            variants={itemVariants}
-            className="group relative p-8 bg-gradient-to-br from-[#C8B29E]/10 via-transparent to-transparent backdrop-blur-sm rounded-3xl border border-[#C8B29E]/20 hover:border-[#C8B29E] transition-all duration-500 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-[#C8B29E]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-[#C8B29E]/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                <Settings className="w-7 h-7 text-[#C8B29E]" />
-              </div>
-              <h4 className="font-display text-xl font-black uppercase mb-6 text-white">Tools</h4>
-              <div className="flex flex-wrap gap-2">
-                {["IntelliJ IDEA", "Eclipse", "VS Code", "Git", "Figma", "MySQL", "Postman"].map(tech => (
-                  <span key={tech} className="px-3 py-1.5 bg-white/5 rounded-lg text-xs font-mono text-gray-300 border border-white/10 hover:bg-[#C8B29E] hover:text-black hover:border-[#C8B29E] transition-all duration-300 cursor-default">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      </div>
-
     </section>
   );
 };
