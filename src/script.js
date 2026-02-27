@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+export function initApp() {
 
     // --- 1. Custom Cursor ---
     const cursor = document.querySelector('.custom-cursor');
@@ -106,40 +106,49 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    gsap.from('.about-text', {
-        scrollTrigger: {
-            trigger: '.about',
-            start: "top 80%",
-        },
-        y: 80,
-        opacity: 0,
-        duration: 1.5,
-        ease: "power4.out"
-    });
+    gsap.fromTo('.about-text',
+        { y: 80, opacity: 0 },
+        {
+            scrollTrigger: {
+                trigger: '.about',
+                start: "top 80%",
+            },
+            y: 0,
+            opacity: 1,
+            duration: 1.5,
+            ease: "power4.out"
+        }
+    );
 
-    gsap.from('.expertise-item', {
-        scrollTrigger: {
-            trigger: '.expertise',
-            start: "top 80%"
-        },
-        y: 60,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: "power3.out"
-    });
+    gsap.fromTo('.expertise-item',
+        { y: 60, opacity: 0 },
+        {
+            scrollTrigger: {
+                trigger: '.expertise',
+                start: "top 80%"
+            },
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.15,
+            ease: "power3.out"
+        }
+    );
 
-    gsap.from('.achievement-row', {
-        scrollTrigger: {
-            trigger: '.achievements',
-            start: "top 85%"
-        },
-        x: -40,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: "power3.out"
-    });
+    gsap.fromTo('.achievement-row',
+        { x: -40, opacity: 0 },
+        {
+            scrollTrigger: {
+                trigger: '.achievements',
+                start: "top 85%"
+            },
+            x: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.15,
+            ease: "power3.out"
+        }
+    );
 
 
     // --- 4. ADVANCED THREE.JS SCENE (Organic Fluid Particle Wave) ---
@@ -293,4 +302,4 @@ document.addEventListener("DOMContentLoaded", () => {
         initThreeJS();
     }
 
-});
+}

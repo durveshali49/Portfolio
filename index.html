@@ -2,182 +2,33 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shaik Durveshali | Software Engineer</title>
-    <link rel="stylesheet" href="styles.css">
 
-    <!-- Preconnect to Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shaik Durveshali | Software Engineer</title>
 
-    <!-- Brutalist & Minimalist Typography -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Manrope:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Three.js for Complex WebGL -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+  <!-- Brutalist & Minimalist Typography -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Manrope:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
-    <!-- GSAP for High-End Transitions -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- Three.js for Complex WebGL -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+
+  <!-- GSAP for High-End Transitions -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
 </head>
 
 <body class="loading">
-
-    <!-- Loader -->
-    <div class="loader">
-        <h1 class="loader-text">INITIALIZING...</h1>
-    </div>
-
-    <!-- 3D Canvas Background -->
-    <canvas id="webgl"></canvas>
-
-    <!-- Custom Interaction Cursor -->
-    <div class="custom-cursor"></div>
-
-    <!-- Minimalist Navigation -->
-    <nav class="nav">
-        <div class="nav-logo magnetic">SD.</div>
-        <div class="nav-links">
-            <a href="#about" class="magnetic">About</a>
-            <a href="#expertise" class="magnetic">Expertise</a>
-            <a href="#achievements" class="magnetic">Achievements</a>
-            <a href="#contact" class="magnetic">Contact</a>
-        </div>
-        <div class="nav-menu-btn magnetic">Menu</div>
-    </nav>
-
-    <div class="scroll-container">
-
-        <!-- Hero Section -->
-        <header class="hero">
-            <div class="hero-content">
-                <div class="hero-title-wrap">
-                    <h1 class="hero-title">SHAIK</h1>
-                    <h1 class="hero-title outline">DURVESHALI</h1>
-                </div>
-                <div class="hero-subtitle">
-                    <p>SOFTWARE ENGINEER &<br>CREATIVE DEVELOPER</p>
-                    <div class="hero-scroll-indicator">
-                        <div class="scroll-line"></div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- About Section -->
-        <section id="about" class="about section">
-            <div class="container">
-                <h2 class="section-label">01 // ABOUT</h2>
-                <div class="about-text-wrap">
-                    <p class="about-text">
-                        I bridge the gap between <span class="highlight">complex backend</span> architectures and <span
-                            class="highlight">intuitive frontend</span> interfaces. A passionate engineer dedicated to
-                        building scalable, high-performance solutions and pushing the boundaries of web experiences.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Expertise Section -->
-        <section id="expertise" class="expertise section">
-            <div class="container">
-                <h2 class="section-label">02 // EXPERTISE</h2>
-
-                <div class="expertise-grid">
-                    <div class="expertise-item">
-                        <div class="expertise-header">
-                            <h3>FRONTEND</h3>
-                            <span class="icon">✧</span>
-                        </div>
-                        <p class="skill-list">React, Next.js, JavaScript, HTML5, flexbox CSS3, Tailwind CSS, Bootstrap
-                        </p>
-                    </div>
-
-                    <div class="expertise-item">
-                        <div class="expertise-header">
-                            <h3>BACKEND</h3>
-                            <span class="icon">✧</span>
-                        </div>
-                        <p class="skill-list">Node.js, Express.js, REST APIs, MongoDB, PostgreSQL</p>
-                    </div>
-
-                    <div class="expertise-item">
-                        <div class="expertise-header">
-                            <h3>AI & CLOUD</h3>
-                            <span class="icon">✧</span>
-                        </div>
-                        <p class="skill-list">Machine Learning, Scikit-learn, AWS (EC2, S3), Docker, CI/CD</p>
-                    </div>
-
-                    <div class="expertise-item">
-                        <div class="expertise-header">
-                            <h3>TOOLS & OTHER</h3>
-                            <span class="icon">✧</span>
-                        </div>
-                        <p class="skill-list">Git, GitHub, VS Code, Postman, Website SEO</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Achievements Section -->
-        <section id="achievements" class="achievements section">
-            <div class="container">
-                <h2 class="section-label">03 // ACHIEVEMENTS</h2>
-
-                <div class="achievements-list">
-                    <div class="achievement-row">
-                        <div class="ach-year">CERTIFIED</div>
-                        <div class="ach-title">MongoDB Associate Developer</div>
-                        <div class="ach-desc">Official Certification</div>
-                    </div>
-                    <div class="achievement-row">
-                        <div class="ach-year">FINALIST</div>
-                        <div class="ach-title">SAP Hackfest</div>
-                        <div class="ach-desc">Global Hackathon Status</div>
-                    </div>
-                    <div class="achievement-row">
-                        <div class="ach-year">ENGINEER</div>
-                        <div class="ach-title">Production-Grade Apps</div>
-                        <div class="ach-desc">Professional Internship</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="contact section">
-            <div class="container">
-                <h2 class="section-label">04 // CONNECT</h2>
-                <div class="contact-wrap">
-                    <h2 class="huge-text">LET'S WHISPER<br>TO THE MACHINES.</h2>
-                    <p>I'm always interested in hearing about new projects and opportunities.</p>
-
-                    <a href="mailto:shaikdurveshali49@gmail.com" class="magnetic-btn">
-                        <div class="btn-text">shaikdurveshali49@gmail.com</div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="container footer-content">
-                <p>© 2026 SHAIK DURVESHALI.</p>
-                <div class="socials">
-                    <a href="#" class="magnetic">GITHUB</a>
-                    <a href="#" class="magnetic">LINKEDIN</a>
-                </div>
-            </div>
-        </footer>
-
-    </div>
-
-    <script src="script.js"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 
 </html>
