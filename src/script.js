@@ -151,138 +151,123 @@ export function initApp() {
     );
 
 
-    // --- 4. ADVANCED THREE.JS SCENE (Organic Fluid Particle Wave) ---
+    // --- 4. ADVANCED THREE.JS SCENE (Fresh 3D Geometry) ---
     const initThreeJS = () => {
         const canvas = document.getElementById('webgl');
         const scene = new THREE.Scene();
 
-        // Deep atmosphere fog matching the background
-        scene.fog = new THREE.FogExp2(0x050505, 0.0008);
+        scene.fog = new THREE.FogExp2(0x050505, 0.001);
 
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-        camera.position.z = 1000;
-        camera.position.y = 300;
+        camera.position.z = 800;
 
         const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // Geometry setup for wave
-        const SEPARATION = 45, AMOUNTX = 120, AMOUNTY = 120;
-        const numParticles = AMOUNTX * AMOUNTY;
-        const positions = new Float32Array(numParticles * 3);
-        const scales = new Float32Array(numParticles);
+        const objectGroup = new THREE.Group();
+        scene.add(objectGroup);
 
-        let i = 0, j = 0;
-        for (let ix = 0; ix < AMOUNTX; ix++) {
-            for (let iy = 0; iy < AMOUNTY; iy++) {
-                positions[i] = ix * SEPARATION - ((AMOUNTX * SEPARATION) / 2);
-                positions[i + 1] = 0;
-                positions[i + 2] = iy * SEPARATION - ((AMOUNTY * SEPARATION) / 2);
-                scales[j] = 1;
-                i += 3;
-                j++;
-            }
-        }
-
-        const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
-
-        // Custom Shader Material for glowing organic dots
-        const material = new THREE.ShaderMaterial({
-            uniforms: {
-                // High contrast neon color for the wave
-                color: { value: new THREE.Color(0xccff00) },
-            },
-            vertexShader: `
-                attribute float scale;
-                void main() {
-                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                    // Dynamically size dots based on depth
-                    gl_PointSize = scale * (200.0 / -mvPosition.z);
-                    gl_Position = projectionMatrix * mvPosition;
-                }
-            `,
-            fragmentShader: `
-                uniform vec3 color;
-                void main() {
-                    // Create soft circular particles instead of harsh squares
-                    if (length(gl_PointCoord - vec2(0.5, 0.5)) > 0.45) discard;
-                    gl_FragColor = vec4(color, 0.6);
-                }
-            `,
+        // Core Torus Knot
+        const tkGeometry = new THREE.TorusKnotGeometry(120, 35, 200, 32);
+        const tkMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xccff00,
+            metalness: 0.1,
+            roughness: 0.1,
             transparent: true,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false
+            opacity: 0.85,
+            clearcoat: 1.0,
+            clearcoatRoughness: 0.2
         });
+        const torusKnot = new THREE.Mesh(tkGeometry, tkMaterial);
+        objectGroup.add(torusKnot);
 
-        const particles = new THREE.Points(geometry, material);
-        // Slightly tilt the wave to flow nicely in background
-        particles.rotation.x = -Math.PI / 8;
-        scene.add(particles);
+        // Solid Core shape
+        const coreGeom = new THREE.IcosahedronGeometry(75, 0);
+        const coreMat = new THREE.MeshPhysicalMaterial({
+            color: 0x222222,
+            metalness: 0.8,
+            roughness: 0.4,
+            clearcoat: 1.0
+        });
+        const coreShape = new THREE.Mesh(coreGeom, coreMat);
+        objectGroup.add(coreShape);
 
-        // Interactive Parallax setup
+        // Floating Dust
+        const particleCount = 600;
+        const pGeometry = new THREE.BufferGeometry();
+        const pPositions = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount * 3; i++) {
+            pPositions[i] = (Math.random() - 0.5) * 2000;
+        }
+        pGeometry.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+        const pMaterial = new THREE.PointsMaterial({
+            color: 0xffffff,
+            size: 3,
+            transparent: true,
+            opacity: 0.4
+        });
+        const particles = new THREE.Points(pGeometry, pMaterial);
+        objectGroup.add(particles);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const pointLight1 = new THREE.PointLight(0xccff00, 2, 1200);
+        pointLight1.position.set(300, 300, 200);
+        scene.add(pointLight1);
+
+        const pointLight2 = new THREE.PointLight(0x00ccff, 2, 1200);
+        pointLight2.position.set(-300, -300, 200);
+        scene.add(pointLight2);
+
         let mouseX = 0;
         let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
         let windowHalfX = window.innerWidth / 2;
         let windowHalfY = window.innerHeight / 2;
         let scrollY = 0;
 
         document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX - windowHalfX;
-            mouseY = e.clientY - windowHalfY;
+            mouseX = (e.clientX - windowHalfX);
+            mouseY = (e.clientY - windowHalfY);
         });
 
         window.addEventListener('scroll', () => {
             scrollY = window.scrollY;
         });
 
-        const simplex = new SimplexNoise();
-        let timeCount = 0;
+        const clock = new THREE.Clock();
 
-        // Render Loop
         const animate = () => {
             requestAnimationFrame(animate);
 
-            // Smooth parallax camera movement based on mouse
-            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+            const elapsedTime = clock.getElapsedTime();
 
-            // Camera diving effect on scroll
-            camera.position.z = 1000 - (scrollY * 0.4);
-            camera.position.y = 300 + (scrollY * 0.2);
+            targetX = mouseX * 0.001;
+            targetY = mouseY * 0.001;
+
+            objectGroup.rotation.y += 0.05 * (targetX - objectGroup.rotation.y);
+            objectGroup.rotation.x += 0.05 * (targetY - objectGroup.rotation.x);
+
+            torusKnot.rotation.y = elapsedTime * 0.2;
+            torusKnot.rotation.x = elapsedTime * 0.1;
+
+            coreShape.rotation.y = -elapsedTime * 0.3;
+            coreShape.rotation.x = elapsedTime * 0.2;
+
+            particles.rotation.y = elapsedTime * 0.05;
+
+            camera.position.z = 800 - (scrollY * 0.3);
+            camera.position.y = -(scrollY * 0.2);
             camera.lookAt(scene.position);
-
-            const poss = particles.geometry.attributes.position.array;
-            const scas = particles.geometry.attributes.scale.array;
-
-            let i = 0, j = 0;
-            for (let ix = 0; ix < AMOUNTX; ix++) {
-                for (let iy = 0; iy < AMOUNTY; iy++) {
-                    // Utilize 3D simplex noise to create a highly organic, non-repeating wave
-                    const noise = simplex.noise3D(ix * 0.04, iy * 0.04, timeCount * 0.015);
-
-                    poss[i + 1] = noise * 120; // Y amplitude
-
-                    // Increase scale of dots when they peak
-                    scas[j] = (noise + 1.2) * 2.5;
-
-                    i += 3;
-                    j++;
-                }
-            }
-
-            particles.geometry.attributes.position.needsUpdate = true;
-            particles.geometry.attributes.scale.needsUpdate = true;
-
-            timeCount += 0.5;
 
             renderer.render(scene, camera);
         };
 
         animate();
 
-        // Responsive handling
         window.addEventListener('resize', () => {
             windowHalfX = window.innerWidth / 2;
             windowHalfY = window.innerHeight / 2;

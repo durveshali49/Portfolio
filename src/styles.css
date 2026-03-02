@@ -3,6 +3,7 @@
     --bg: #050505;
     --fg: #ffffff;
     --accent: #ccff00;
+    --accent-2: #00ccff;
     /* High contrast neon chartreuse for that premium edgy touch */
     --muted: #555555;
     --font-heading: 'Syncopate', sans-serif;
@@ -223,11 +224,14 @@ body.loading {
 .hero-title.outline {
     color: transparent;
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
-    transition: -webkit-text-stroke 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-block;
 }
 
 .hero-title.outline:hover {
-    -webkit-text-stroke: 2px var(--accent);
+    -webkit-text-stroke: 2px var(--accent-2);
+    text-shadow: 8px 8px 0px var(--accent), -2px -2px 15px rgba(0, 204, 255, 0.5);
+    transform: translate(-4px, -4px);
 }
 
 .hero-subtitle {
