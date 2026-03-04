@@ -1,170 +1,167 @@
-import { useEffect } from 'react';
-import { initApp } from './script.js';
+import React, { useRef, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, MeshDistortMaterial, Sphere, Float, Environment, Stars, ContactShadows, Text } from '@react-three/drei';
+import { motion } from 'framer-motion';
+import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaServer, FaWrench } from 'react-icons/fa';
+
+// 3D Background Component
+const AnimatedShape = () => {
+    const meshRef = useRef();
+
+    // Rotate the shape
+    useFrame((state, delta) => {
+        meshRef.current.rotation.x += delta * 0.2;
+        meshRef.current.rotation.y += delta * 0.3;
+    });
+
+    return (
+        <Float speed={1.5} rotationIntensity={1.5} floatIntensity={2}>
+            <Sphere ref={meshRef} visible args={[1.5, 64, 64]} scale={1.2}>
+                <MeshDistortMaterial
+                    color="#6d28d9"
+                    attach="material"
+                    distort={0.6}
+                    speed={2}
+                    roughness={0.2}
+                    metalness={0.8}
+                />
+            </Sphere>
+            {/* Decorative inner core */}
+            <Sphere args={[1, 32, 32]} scale={0.7}>
+                <meshStandardMaterial color="#ec4899" emissive="#ec4899" emissiveIntensity={1} roughness={0.1} />
+            </Sphere>
+
+            {/* Sub-shapes orbiting */}
+            <group rotation={[1, 0, 0]}>
+                <mesh position={[2.5, 0, 0]}>
+                    <boxGeometry args={[0.4, 0.4, 0.4]} />
+                    <meshStandardMaterial color="#2563eb" roughness={0.3} metalness={0.7} />
+                </mesh>
+            </group>
+        </Float>
+    );
+};
+
+const Scene = () => {
+    return (
+        <>
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[10, 10, 5]} intensity={1.5} color="#ffffff" />
+            <pointLight position={[-10, -10, -5]} intensity={2} color="#ec4899" />
+            <spotLight position={[0, 15, 0]} angle={0.3} penumbra={1} intensity={2} castShadow color="#2563eb" />
+
+            <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade speed={1} />
+
+            <AnimatedShape />
+            <Environment preset="night" />
+        </>
+    );
+};
 
 function App() {
-  useEffect(() => {
-    // Initialize animations and 3D scene
-    initApp();
-  }, []);
+    return (
+        <div className="app-container">
+            {/* 3D Canvas Background fixed behind */}
+            <div className="canvas-container">
+                <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
+                    <Scene />
+                    <OrbitControls enableZoom={false} enablePan={false} maxPolarAngle={Math.PI / 1.5} minPolarAngle={Math.PI / 3} />
+                </Canvas>
+            </div>
 
-  return (
-    <>
-      
+            {/* HTML Content Overlay */}
+            <div className="content-layer">
 
-    {/*  Loader  */}
-    <div className="loader">
-        <h1 className="loader-text">INITIALIZING...</h1>
-    </div>
-
-    {/*  3D Canvas Background  */}
-    <canvas id="webgl"></canvas>
-
-    {/*  Custom Interaction Cursor  */}
-    <div className="custom-cursor"></div>
-
-    {/*  Minimalist Navigation  */}
-    <nav className="nav">
-        <div className="nav-logo magnetic">SD.</div>
-        <div className="nav-links">
-            <a href="#about" className="magnetic">About</a>
-            <a href="#expertise" className="magnetic">Expertise</a>
-            <a href="#achievements" className="magnetic">Achievements</a>
-            <a href="#contact" className="magnetic">Contact</a>
-        </div>
-        <div className="nav-menu-btn magnetic">Menu</div>
-    </nav>
-
-    <div className="scroll-container">
-
-        {/*  Hero Section  */}
-        <header className="hero">
-            <div className="hero-content">
-                <div className="hero-title-wrap">
-                    <h1 className="hero-title">SHAIK</h1>
-                    <h1 className="hero-title outline">DURVESHALI</h1>
-                </div>
-                <div className="hero-subtitle">
-                    <p>SOFTWARE ENGINEER &<br />CREATIVE DEVELOPER</p>
-                    <div className="hero-scroll-indicator">
-                        <div className="scroll-line"></div>
+                <nav>
+                    <div className="logo">SHAIK DURVESHALI</div>
+                    <div className="nav-links">
+                        <a href="#home">Home</a>
+                        <a href="#expertise">Expertise</a>
+                        <a href="#contact">Contact</a>
                     </div>
-                </div>
-            </div>
-        </header>
+                </nav>
 
-        {/*  About Section  */}
-        <section id="about" className="about section">
-            <div className="container">
-                <h2 className="section-label">01 // ABOUT</h2>
-                <div className="about-text-wrap">
-                    <p className="about-text">
-                        I bridge the gap between <span className="highlight">complex backend</span> architectures and <span
-                            className="highlight">intuitive frontend</span> interfaces. A passionate engineer dedicated to
-                        building scalable, high-performance solutions and pushing the boundaries of web experiences.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        {/*  Expertise Section  */}
-        <section id="expertise" className="expertise section">
-            <div className="container">
-                <h2 className="section-label">02 // EXPERTISE</h2>
-
-                <div className="expertise-grid">
-                    <div className="expertise-item">
-                        <div className="expertise-header">
-                            <h3>FRONTEND</h3>
-                            <span className="icon">✧</span>
-                        </div>
-                        <p className="skill-list">React, Next.js, JavaScript, HTML5, flexbox CSS3, Tailwind CSS, Bootstrap
+                <section id="home" className="hero">
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, delay: 0.2 }}
+                    >
+                        <h1>
+                            SOFTWARE<br />
+                            <span>ENGINEER</span>
+                        </h1>
+                        <p>
+                            Bridging the gap between complex backend architectures and intuitive frontend interfaces. High-end, premium digital experiences powered by Next.js, Node.js, and Three.js.
                         </p>
-                    </div>
-
-                    <div className="expertise-item">
-                        <div className="expertise-header">
-                            <h3>BACKEND</h3>
-                            <span className="icon">✧</span>
+                        <div className="hero-buttons">
+                            <a href="#expertise" className="btn primary">View Expertise</a>
+                            <a href="#contact" className="btn secondary">Get in Touch</a>
                         </div>
-                        <p className="skill-list">Node.js, Express.js, REST APIs, MongoDB, PostgreSQL</p>
-                    </div>
+                    </motion.div>
+                </section>
 
-                    <div className="expertise-item">
-                        <div className="expertise-header">
-                            <h3>AI & CLOUD</h3>
-                            <span className="icon">✧</span>
-                        </div>
-                        <p className="skill-list">Machine Learning, Scikit-learn, AWS (EC2, S3), Docker, CI/CD</p>
-                    </div>
+                <section id="expertise">
+                    <motion.h2
+                        className="section-title"
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        Capabilities
+                    </motion.h2>
 
-                    <div className="expertise-item">
-                        <div className="expertise-header">
-                            <h3>TOOLS & OTHER</h3>
-                            <span className="icon">✧</span>
-                        </div>
-                        <p className="skill-list">Git, GitHub, VS Code, Postman, Website SEO</p>
+                    <div className="skills-grid">
+                        {[
+                            { title: "Frontend Engineering", icon: <FaCode size={24} color="#ec4899" />, desc: "Building fluid 3D experiences, animated interfaces, and accessible design systems using React, Next.js, and Three.js." },
+                            { title: "Backend Architecture", icon: <FaServer size={24} color="#6d28d9" />, desc: "Designing robust, scalable RESTful APIs, serverless functions, and optimized database schemas with Node.js and PostgreSQL." },
+                            { title: "AI & Cloud Integration", icon: <FaWrench size={24} color="#2563eb" />, desc: "Implementing intelligent features, deploying highly available services via AWS, Docker, and CI/CD pipelines." }
+                        ].map((skill, i) => (
+                            <motion.div
+                                className="skill-card"
+                                key={i}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-50px" }}
+                                transition={{ duration: 0.6, delay: i * 0.2 }}
+                            >
+                                <h3>{skill.icon} {skill.title}</h3>
+                                <p>{skill.desc}</p>
+                            </motion.div>
+                        ))}
                     </div>
-                </div>
+                </section>
+
+                <section id="contact" style={{ minHeight: '80vh', textAlign: 'center', alignItems: 'center' }}>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <h2 className="section-title" style={{ marginBottom: '1rem', fontSize: 'clamp(2rem, 6vw, 5rem)' }}>Let's Build Mvps</h2>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', marginBottom: '3rem', maxWidth: '600px' }}>
+                            Currently open for new opportunities to build premium web applications and scalable products.
+                        </p>
+                        <a href="mailto:shaikdurveshali49@gmail.com" className="btn primary" style={{ padding: '1.5rem 3rem', fontSize: '1.2rem' }}>
+                            hello@durveshali.com
+                        </a>
+                    </motion.div>
+                </section>
+
+                <footer>
+                    <div className="logo" style={{ fontSize: '1.2rem' }}>SHAIK © 2026</div>
+                    <div className="social-links">
+                        <a href="https://github.com/durveshali49" target="_blank" rel="noreferrer"><FaGithub /></a>
+                        <a href="https://linkedin.com/in/shaikdurveshali49" target="_blank" rel="noreferrer"><FaLinkedin /></a>
+                        <a href="mailto:shaikdurveshali49@gmail.com"><FaEnvelope /></a>
+                    </div>
+                </footer>
+
             </div>
-        </section>
-
-        {/*  Achievements Section  */}
-        <section id="achievements" className="achievements section">
-            <div className="container">
-                <h2 className="section-label">03 // ACHIEVEMENTS</h2>
-
-                <div className="achievements-list">
-                    <div className="achievement-row">
-                        <div className="ach-year">CERTIFIED</div>
-                        <div className="ach-title">MongoDB Associate Developer</div>
-                        <div className="ach-desc">Official Certification</div>
-                    </div>
-                    <div className="achievement-row">
-                        <div className="ach-year">FINALIST</div>
-                        <div className="ach-title">SAP Hackfest</div>
-                        <div className="ach-desc">Global Hackathon Status</div>
-                    </div>
-                    <div className="achievement-row">
-                        <div className="ach-year">ENGINEER</div>
-                        <div className="ach-title">Production-Grade Apps</div>
-                        <div className="ach-desc">Professional Internship</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {/*  Contact Section  */}
-        <section id="contact" className="contact section">
-            <div className="container">
-                <h2 className="section-label">04 // CONNECT</h2>
-                <div className="contact-wrap">
-                    <h2 className="huge-text">LET'S WHISPER<br />TO THE MACHINES.</h2>
-                    <p>I'm always interested in hearing about new projects and opportunities.</p>
-
-                    <a href="mailto:shaikdurveshali49@gmail.com" className="magnetic-btn">
-                        <div className="btn-text">shaikdurveshali49@gmail.com</div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        {/*  Footer  */}
-        <footer className="footer">
-            <div className="container footer-content">
-                <p>© 2026 SHAIK DURVESHALI.</p>
-                <div className="socials">
-                    <a href="#" className="magnetic">GITHUB</a>
-                    <a href="#" className="magnetic">LINKEDIN</a>
-                </div>
-            </div>
-        </footer>
-
-    </div>
-
-    
-
-    </>
-  );
+        </div>
+    );
 }
 
 export default App;
