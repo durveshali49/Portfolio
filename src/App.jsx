@@ -2,43 +2,133 @@ import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, MeshDistortMaterial, Sphere, Float, Environment, Stars, ContactShadows, Text } from '@react-three/drei';
 import { motion } from 'framer-motion';
+import * as THREE from 'three';
 import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaServer, FaWrench } from 'react-icons/fa';
 
-// 3D Background Component
-const AnimatedShape = () => {
-    const meshRef = useRef();
+// 3D Eyes Component
+const Eye = ({ position }) => {
+    const groupRef = useRef();
+    const pupilRef = useRef();
+    const topEyelidRef = useRef();
+    const bottomEyelidRef = useRef();
 
-    // Rotate the shape
-    useFrame((state, delta) => {
-        meshRef.current.rotation.x += delta * 0.2;
-        meshRef.current.rotation.y += delta * 0.3;
+    // Initial position for the pupil target
+    const pupilTarget = useRef(new THREE.Vector2(0, 0));
+
+    useFrame((state) => {
+        const t = state.clock.getElapsedTime();
+        const { pointer } = state;
+
+        let blinkProgress = 0;
+        const blinkCycle = t % 5; // blink every 5 seconds
+        if (blinkCycle < 0.15) {
+            blinkProgress = Math.sin((blinkCycle / 0.15) * Math.PI); // 0 to 1 to 0
+        } else if (blinkCycle > 2 && blinkCycle < 2.3) {
+            // slow double blink
+            blinkProgress = Math.sin(((blinkCycle - 2) / 0.3) * Math.PI);
+        }
+
+        // clamp blinkProgress
+        blinkProgress = Math.max(0, Math.min(1, blinkProgress));
+
+        if (topEyelidRef.current) {
+            topEyelidRef.current.rotation.x = THREE.MathUtils.lerp(
+                -Math.PI / 2.2, // open (tucked back)
+                0.2,            // closed (past middle)
+                blinkProgress
+            );
+        }
+
+        if (bottomEyelidRef.current) {
+            bottomEyelidRef.current.rotation.x = THREE.MathUtils.lerp(
+                Math.PI + Math.PI / 2.2, // open
+                Math.PI - 0.2,           // closed
+                blinkProgress
+            );
+        }
+
+        if (pupilRef.current) {
+            // Update target smoothly
+            pupilTarget.current.x = THREE.MathUtils.lerp(pupilTarget.current.x, pointer.x, 0.1);
+            pupilTarget.current.y = THREE.MathUtils.lerp(pupilTarget.current.y, pointer.y, 0.1);
+
+            const lookX = pupilTarget.current.x * 0.8;
+            const lookY = pupilTarget.current.y * 0.8;
+            const distanceSq = lookX ** 2 + lookY ** 2;
+            // The Z needs to represent a correct sphere surface mapping
+            const lookZ = Math.sqrt(Math.max(0, 1 - distanceSq));
+
+            // Distance from center of eye to center of iris = 0.75 to sink it in
+            pupilRef.current.position.set(lookX * 0.75, lookY * 0.75, lookZ * 0.75);
+
+            // Align local Z axis to point outward
+            const dir = new THREE.Vector3(lookX, lookY, lookZ).normalize();
+            pupilRef.current.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
+        }
+
+        if (groupRef.current) {
+            // slight overall movement to look more alive
+            groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, pointer.x * 0.3, 0.05);
+            groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, -pointer.y * 0.3, 0.05);
+        }
     });
 
-    return (
-        <Float speed={1.5} rotationIntensity={1.5} floatIntensity={2}>
-            <Sphere ref={meshRef} visible args={[1.5, 64, 64]} scale={1.2}>
-                <MeshDistortMaterial
-                    color="#6d28d9"
-                    attach="material"
-                    distort={0.6}
-                    speed={2}
-                    roughness={0.2}
-                    metalness={0.8}
-                />
-            </Sphere>
-            {/* Decorative inner core */}
-            <Sphere args={[1, 32, 32]} scale={0.7}>
-                <meshStandardMaterial color="#ec4899" emissive="#ec4899" emissiveIntensity={1} roughness={0.1} />
-            </Sphere>
+    const eyelidColor = "#050510"; // very dark blue/black background match
+    const scleraColor = "#f8fafc";
+    const irisColor = "#ec4899"; // pink theme match
 
-            {/* Sub-shapes orbiting */}
-            <group rotation={[1, 0, 0]}>
-                <mesh position={[2.5, 0, 0]}>
-                    <boxGeometry args={[0.4, 0.4, 0.4]} />
-                    <meshStandardMaterial color="#2563eb" roughness={0.3} metalness={0.7} />
+    return (
+        <group position={position} ref={groupRef} scale={1.5}>
+            {/* Sclera */}
+            <mesh>
+                <sphereGeometry args={[1, 64, 64]} />
+                <meshStandardMaterial color={scleraColor} roughness={0.2} metalness={0.1} />
+            </mesh>
+
+            {/* Pupil & Iris Group */}
+            <group ref={pupilRef}>
+                {/* Iris */}
+                <mesh position={[0, 0, 0]}>
+                    <sphereGeometry args={[0.4, 32, 32]} />
+                    <meshStandardMaterial color={irisColor} roughness={0.3} metalness={0.4} />
+                </mesh>
+                {/* Pupil Center */}
+                <mesh position={[0, 0, 0.25]}>
+                    <sphereGeometry args={[0.2, 32, 32]} />
+                    <meshStandardMaterial color="#000000" roughness={0.1} metalness={0.8} />
+                </mesh>
+                {/* Specular */}
+                <mesh position={[0.12, 0.12, 0.35]}>
+                    <sphereGeometry args={[0.04, 16, 16]} />
+                    <meshBasicMaterial color="#ffffff" />
+                </mesh>
+                <mesh position={[-0.08, -0.08, 0.38]}>
+                    <sphereGeometry args={[0.02, 16, 16]} />
+                    <meshBasicMaterial color="#ffffff" />
                 </mesh>
             </group>
-        </Float>
+
+            {/* Top Eyelid */}
+            <mesh ref={topEyelidRef}>
+                <sphereGeometry args={[1.02, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2]} />
+                <meshStandardMaterial color={eyelidColor} roughness={0.9} metalness={0.1} side={THREE.DoubleSide} />
+            </mesh>
+
+            {/* Bottom Eyelid */}
+            <mesh ref={bottomEyelidRef}>
+                <sphereGeometry args={[1.02, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2]} />
+                <meshStandardMaterial color={eyelidColor} roughness={0.9} metalness={0.1} side={THREE.DoubleSide} />
+            </mesh>
+        </group>
+    );
+};
+
+const EyesBackground = () => {
+    return (
+        <group position={[0, 0, 0]}>
+            <Eye position={[-2.2, 0, 0]} />
+            <Eye position={[2.2, 0, 0]} />
+        </group>
     );
 };
 
@@ -52,7 +142,7 @@ const Scene = () => {
 
             <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade speed={1} />
 
-            <AnimatedShape />
+            <EyesBackground />
             <Environment preset="night" />
         </>
     );
