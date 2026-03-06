@@ -7,6 +7,52 @@ import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaServer, FaWrench } from 're
 
 
 
+const ModernBackground = () => {
+    return (
+        <group>
+            {/* Pink Distorted Sphere */}
+            <Float speed={2} rotationIntensity={1.5} floatIntensity={2}>
+                <Sphere args={[1.2, 64, 64]} position={[-3, 1, -2]}>
+                    <MeshDistortMaterial
+                        color="#ec4899"
+                        attach="material"
+                        distort={0.4}
+                        speed={2}
+                        roughness={0.2}
+                        metalness={0.8}
+                    />
+                </Sphere>
+            </Float>
+            {/* Purple Distorted Sphere */}
+            <Float speed={1.5} rotationIntensity={2} floatIntensity={1.5}>
+                <Sphere args={[0.9, 64, 64]} position={[3, -1.5, -3]}>
+                    <MeshDistortMaterial
+                        color="#6d28d9"
+                        attach="material"
+                        distort={0.5}
+                        speed={1.5}
+                        roughness={0.1}
+                        metalness={0.9}
+                    />
+                </Sphere>
+            </Float>
+            {/* Blue Distorted Sphere */}
+            <Float speed={3} rotationIntensity={1} floatIntensity={2}>
+                <Sphere args={[0.6, 64, 64]} position={[1, 2.5, -4]}>
+                    <MeshDistortMaterial
+                        color="#2563eb"
+                        attach="material"
+                        distort={0.3}
+                        speed={3}
+                        roughness={0.1}
+                        metalness={1}
+                    />
+                </Sphere>
+            </Float>
+        </group>
+    );
+};
+
 const Scene = () => {
     return (
         <>
@@ -16,7 +62,8 @@ const Scene = () => {
             <spotLight position={[0, 15, 0]} angle={0.3} penumbra={1} intensity={2} castShadow color="#2563eb" />
 
             <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade speed={1} />
-            <Environment preset="night" />
+            <ModernBackground />
+            <Environment preset="city" />
         </>
     );
 };
