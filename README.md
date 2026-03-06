@@ -1,24 +1,37 @@
 # Shaik Durveshali | 3D Portfolio
 
-A sleek, 3D interactive portfolio built using HTML, CSS, JavaScript, Three.js, and GSAP.
+A sleek, 3D interactive portfolio built using React, React Three Fiber, Framer Motion, and Vite.
 
 ## Features
-- **3D Parallax Background**: Custom Three.js rendering with reactive particle simulation.
+- **3D Background**: Custom React Three Fiber rendering with modern abstract distorted floating spheres and a starry environment.
 - **Glassmorphism UI**: High-end styling using modern CSS techniques.
-- **Scroll Animations**: Smooth entrance animations powered by GSAP.
-- **Responsive Navigation**: Full mobile support with a custom hamburger menu.
-- **SEO Optimized**: Includes meta tags and semantic HTML for search engine discoverability.
+- **Scroll Animations**: Smooth entrance animations powered by Framer Motion.
+- **Responsive Layout**: Full mobile support with fluid typography and layout scaling.
+- **Optimized Performance**: Built with Vite for rapid development and optimized production builds.
 
 ## Tech Stack
-- HTML5
-- CSS3 (Variables, Flexbox, Grid, Glassmorphism)
-- Vanilla JavaScript
-- [Three.js](https://threejs.org/) (3D Graphics)
-- [GSAP](https://greensock.com/gsap/) (Animations)
+- Frontend: [React](https://reactjs.org/) + [Vite](https://vitejs.dev/)
+- 3D Graphics: [Three.js](https://threejs.org/) & [@react-three/fiber](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction) + [@react-three/drei](https://github.com/pmndrs/drei)
+- Animations: [Framer Motion](https://www.framer.com/motion/)
+- Icons: [React Icons](https://react-icons.github.io/react-icons/)
 
 ## Setup
-Simply serve the repository using any local web server, for example:
+
+First, ensure you have Node.js installed, then clone the repository and run:
+
 ```bash
-python -m http.server 8000
+# Install dependencies
+npm install
+
+# Run the development server
+npm run dev
 ```
-Then visit `http://localhost:8000` in your browser.
+
+Then visit `http://localhost:5173` in your browser.
+
+## Build
+
+To build the static files for production:
+```bash
+npm run build
+```
