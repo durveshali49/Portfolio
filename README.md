@@ -1,4 +1,4 @@
-# Shaik Durveshali | 3D Portfolio
+# Shaik Durveshali
 
 A sleek, 3D interactive portfolio built using React, React Three Fiber, Framer Motion, and Vite.
 
